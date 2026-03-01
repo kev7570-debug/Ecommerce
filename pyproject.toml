@@ -7,6 +7,7 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "coverage (>=7.13.4,<8.0.0)"
 ]
 
 
