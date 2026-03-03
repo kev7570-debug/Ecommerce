@@ -1,6 +1,7 @@
 
 
 class Product:
+    """Модуль представляющий товары"""
     name: str
     description: str
     __price: float

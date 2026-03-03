@@ -2,6 +2,7 @@ from src.product import Product
 
 
 class Category:
+    """Модуль позволяющий создавать категории товаров"""
     name: str
     description: str
     __products: list  # Приватный атрибут
