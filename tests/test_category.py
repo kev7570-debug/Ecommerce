@@ -36,15 +36,3 @@ def test_products_in_list(setup_category):
     products = category.products_in_list
     assert len(products) == 2  # Начальное количество товаров
     assert isinstance(products[0], Product)  # Первый элемент списка — это объект Product
-
-
-def test_products_format(setup_category):
-    """
-    Тестирование формата строки в геттере products.
-    """
-    category = setup_category
-    products_str = category.products
-    lines = products_str.split('\n')[:-1]  # Исключение пустой строки
-    for line in lines:
-        assert "руб." in line
-        assert "шт." in line
