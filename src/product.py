@@ -1,5 +1,3 @@
-
-
 class Product:
     """Модуль представляющий товары"""
     name: str
@@ -27,3 +25,9 @@ class Product:
             print("Цена не должна быть нулевой или отрицательной!")
         else:
             self.__price = new_price
+
+    def __str__(self):  # Задание 1 часть 1
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):  # Задание 2 переопределить магический метод __add__ в классе Product
+        return self.price * self.quantity + other.price * other.quantity
