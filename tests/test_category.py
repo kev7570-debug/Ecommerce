@@ -1,6 +1,6 @@
 import pytest
 from src.category import Category
-from src.product import Product
+from src.product import Product, Smartphone
 
 
 def test_products_format(setup_category):
@@ -89,3 +89,62 @@ def test_category_none_values():
     assert len(category._Category__products) == 0
     assert Category.category_count == 1
     assert Category.product_count == 0
+
+
+# Новые тесты для новой функциональности
+# Фикстуры для создания тестовых объектов
+@pytest.fixture
+def category_fixture():
+    product1 = Product("Product 1", "Desc 1", 100.0, 10)
+    product2 = Product("Product 2", "Desc 2", 200.0, 20)
+    return Category("Test Category", "Test Desc", [product1, product2])
+
+
+@pytest.fixture
+def empty_category_fixture():
+    return Category("Empty Category", "No products here")
+
+
+# Тестирование конструктора
+def test_category_constructor(category_fixture):
+    assert category_fixture.name == "Test Category"
+    assert len(category_fixture._Category__products) == 2
+
+
+def test_empty_category_constructor(empty_category_fixture):
+    assert empty_category_fixture.name == "Empty Category"
+    assert len(empty_category_fixture._Category__products) == 0
+
+
+# Тестирование метода __str__
+def test_category_str(category_fixture):
+    assert str(category_fixture) == "Test Category, количество продуктов: 30 шт."
+
+
+# Тестирование метода products
+def test_category_products(category_fixture):
+    products_str = category_fixture.products
+    assert "Product 1" in products_str
+    assert "Product 2" in products_str
+
+
+def test_empty_category_products(empty_category_fixture):
+    assert empty_category_fixture.products == ""
+
+
+# Тестирование метода add_product
+def test_add_valid_product(category_fixture):
+    new_product = Product("New Product", "New Desc", 300.0, 30)
+    category_fixture.add_product(new_product)
+    assert len(category_fixture._Category__products) == 3
+
+
+def test_add_invalid_product(category_fixture):
+    with pytest.raises(TypeError):
+        category_fixture.add_product("Invalid Product")
+
+
+def test_add_subclass_product(category_fixture):
+    smartphone = Smartphone("Samsung", "Desc", 1000.0, 10, 95.0, "Model", 256, "Black")
+    category_fixture.add_product(smartphone)
+    assert len(category_fixture._Category__products) == 3

@@ -26,8 +26,46 @@ class Product:
         else:
             self.__price = new_price
 
-    def __str__(self):  # Задание 1 часть 1
+    def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-    def __add__(self, other):  # Задание 2 переопределить магический метод __add__ в классе Product
+    # def __add__(self, other):
+    #     return self.price * self.quantity + other.price * other.quantity
+
+    def __add__(self, other):
+        # Добавляем проверку типов
+        if not isinstance(other, type(self)):
+            raise TypeError("Нельзя складывать товары разных классов")
+
         return self.price * self.quantity + other.price * other.quantity
+
+
+# Задание 1: Создание классов-наследников
+
+
+class Smartphone(Product):
+    """Класс представляющий смартфоны"""
+    efficiency: float
+    model: str
+    memory: int
+    color: str
+
+    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Класс представляющий газонную траву"""
+    country: str
+    germination_period: str
+    color: str
+
+    def __init__(self, name, description, price, quantity, country, germination_period, color):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
