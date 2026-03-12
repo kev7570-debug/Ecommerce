@@ -148,3 +148,51 @@ def test_add_subclass_product(category_fixture):
     smartphone = Smartphone("Samsung", "Desc", 1000.0, 10, 95.0, "Model", 256, "Black")
     category_fixture.add_product(smartphone)
     assert len(category_fixture._Category__products) == 3
+
+
+# Новые тесты для лучшего покрытия
+
+def test_add_product_to_empty_category(empty_category_fixture):
+    """Тестирование добавления продукта в пустую категорию"""
+    product = Product("Test Product", "Test Desc", 100.0, 10)
+    empty_category_fixture.add_product(product)
+    assert len(empty_category_fixture._Category__products) == 1
+
+
+def test_add_multiple_products(category_fixture):
+    """Тестирование добавления нескольких продуктов подряд"""
+    product1 = Product("Product A", "Desc A", 100.0, 10)
+    product2 = Product("Product B", "Desc B", 200.0, 20)
+    category_fixture.add_product(product1)
+    category_fixture.add_product(product2)
+    assert len(category_fixture._Category__products) == 4
+
+
+def test_static_attributes_after_adding_products(category_fixture):
+    """Тестирование статических атрибутов после добавления продуктов"""
+    initial_product_count = Category.product_count
+    category_fixture.add_product(Product("New Product", "New Desc", 300.0, 30))
+    assert Category.product_count == initial_product_count + 1
+
+
+def test_category_with_no_products():
+    """Тестирование категории без продуктов"""
+    category = Category("Empty Category", "")
+    assert len(category._Category__products) == 0
+    assert Category.product_count == 0
+
+
+def test_category_with_single_product():
+    """Тестирование категории с одним продуктом"""
+    product = Product("Single Product", "Single Desc", 100.0, 10)
+    category = Category("Single Product Category", "", [product])
+    assert len(category._Category__products) == 1
+    assert Category.product_count == 1
+
+
+def test_category_with_large_number_of_products():
+    """Тестирование категории с большим числом продуктов"""
+    products = [Product(f"Product {i}", f"Desc {i}", 100.0, 10) for i in range(10)]
+    category = Category("Large Category", "", products)
+    assert len(category._Category__products) == 10
+    assert Category.product_count == 10
