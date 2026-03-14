@@ -1,4 +1,31 @@
-class Product:
+from abc import ABC
+from typing import Any
+
+
+# Базовый абстрактный класс для всех продуктов
+class BaseProduct(ABC):
+    """Абстрактный класс для всех продуктов"""
+    pass
+
+
+# Класс-миксин для логирования создания объектов
+class CreationLoggerMixin:
+    """Миcкин для логирования создания объектов"""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        # Получаем имя класса, от которого был создан объект
+        class_name = self.__class__.__name__
+
+        # Формируем строку с параметрами
+        args_repr = ', '.join(repr(arg) for arg in args)
+        kwargs_repr = ', '.join(f"{key}={value!r}" for key, value in kwargs.items())
+        params = f"{args_repr}{', ' if args_repr and kwargs_repr else ''}{kwargs_repr}"
+
+        # Печатаем информацию о создании объекта
+        print(f"{class_name}({params})")
+
+
+class Product(CreationLoggerMixin, BaseProduct):
     """Модуль представляющий товары"""
     name: str
     description: str
@@ -6,6 +33,10 @@ class Product:
     quantity: int
 
     def __init__(self, name, description, price, quantity):
+        # Вызываем конструктор миксина, который в свою очередь вызовет конструктор BaseProduct
+        super().__init__(name=name, description=description, price=price, quantity=quantity)
+
+        # Инициализируем атрибуты
         self.name = name
         self.description = description
         self.__price = price
@@ -29,9 +60,6 @@ class Product:
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-    # def __add__(self, other):
-    #     return self.price * self.quantity + other.price * other.quantity
-
     def __add__(self, other):
         # Добавляем проверку типов
         if not isinstance(other, type(self)):
@@ -40,7 +68,7 @@ class Product:
         return self.price * self.quantity + other.price * other.quantity
 
 
-# Задание 1: Создание классов-наследников
+# Создание классов-наследников
 
 
 class Smartphone(Product):
