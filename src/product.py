@@ -1,11 +1,15 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Any
 
 
 # Базовый абстрактный класс для всех продуктов
 class BaseProduct(ABC):
     """Абстрактный класс для всех продуктов"""
-    pass
+
+    @abstractmethod
+    def example_method(self) -> None:
+        """Пример абстрактного метода"""
+        pass
 
 
 # Класс-миксин для логирования создания объектов
@@ -67,9 +71,12 @@ class Product(CreationLoggerMixin, BaseProduct):
 
         return self.price * self.quantity + other.price * other.quantity
 
+    # Реализация абстрактного метода
+    def example_method(self) -> None:
+        pass
+
 
 # Создание классов-наследников
-
 
 class Smartphone(Product):
     """Класс представляющий смартфоны"""
@@ -85,6 +92,10 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
+    # Реализация абстрактного метода
+    def example_method(self) -> None:
+        pass
+
 
 class LawnGrass(Product):
     """Класс представляющий газонную траву"""
@@ -97,3 +108,7 @@ class LawnGrass(Product):
         self.country = country
         self.germination_period = germination_period
         self.color = color
+
+    # Реализация абстрактного метода
+    def example_method(self) -> None:
+        pass
