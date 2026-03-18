@@ -37,6 +37,10 @@ class Product(CreationLoggerMixin, BaseProduct):
     quantity: int
 
     def __init__(self, name, description, price, quantity):
+        # Задание 1 Проверка на нулевое количество
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+
         # Вызываем конструктор миксина, который в свою очередь вызовет конструктор BaseProduct
         super().__init__(name=name, description=description, price=price, quantity=quantity)
 
