@@ -29,7 +29,19 @@ class Category:
             product_str += f'Название продукта: {product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n'
         return product_str
 
-    # Задание 3: Ограничение добавления продуктов
+    # Задание 2: Метод подсчета среднего ценника всех товаров
+    def middle_price(self) -> float:
+        """Возвращает средний ценник всех товаров в категории"""
+        try:
+            # Суммируем цены всех товаров и делим на их количество
+            total_price = sum(product.price for product in self.__products)
+            average_price = total_price / len(self.__products)
+            return round(average_price, 2)  # Округляем до 2 знаков после запятой
+        except ZeroDivisionError:
+            # Если в категории нет товаров, возвращаем 0
+            return 0.0
+
+    # Ограничение добавления продуктов
     def add_product(self, product):
         # Проверяем, что добавляемый объект является продуктом или его наследником
         if not isinstance(product, Product):
