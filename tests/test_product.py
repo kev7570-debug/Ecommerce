@@ -145,3 +145,16 @@ def test_price_setter_with_negative_value(base_product_fixture, capsys):
     captured = capsys.readouterr()
     assert "Цена не должна быть нулевой или отрицательной!" in captured.out
     assert base_product_fixture.price == 500.0  # Цена не должна измениться
+
+
+# Тесты для обработки исключения ValueError при создании продукта с нулевым количеством
+def test_product_creation_with_zero_quantity():
+    """Тестирование создания продукта с нулевым количеством"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Test Product", "Test Desc", 100.0, 0)
+
+
+def test_product_creation_with_positive_quantity():
+    """Тестирование создания продукта с положительным количеством"""
+    product = Product("Valid Product", "Valid Desc", 100.0, 10)
+    assert product.quantity == 10

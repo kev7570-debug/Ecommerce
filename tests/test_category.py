@@ -196,3 +196,31 @@ def test_category_with_large_number_of_products():
     category = Category("Large Category", "", products)
     assert len(category._Category__products) == 10
     assert Category.product_count == 10
+
+
+# Тесты для метода middle_price в классе Category
+def test_middle_price_with_nonempty_category(setup_category):
+    """Тестирование метода middle_price для непустой категории"""
+    category = setup_category
+    expected_average = (180000.0 + 210000.0) / 2
+    assert category.middle_price() == pytest.approx(expected_average, rel=1e-2)
+
+
+def test_middle_price_with_empty_category(empty_category_fixture):
+    """Тестирование метода middle_price для пустой категории"""
+    category = empty_category_fixture
+    assert category.middle_price() == 0.0
+
+
+def test_middle_price_with_single_product():
+    """Тестирование метода middle_price для категории с одним продуктом"""
+    product = Product("Single Product", "Single Desc", 100.0, 10)
+    category = Category("Single Product Category", "", [product])
+    assert category.middle_price() == 100.0
+
+
+def test_middle_price_with_large_number_of_products():
+    """Тестирование метода middle_price для категории с большим числом продуктов"""
+    products = [Product(f"Product {i}", f"Desc {i}", 100.0, 10) for i in range(10)]
+    category = Category("Large Category", "", products)
+    assert category.middle_price() == 100.0
